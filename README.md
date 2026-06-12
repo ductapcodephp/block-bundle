@@ -2,13 +2,13 @@
 
 ## 1. Attribute
 
-JS nhận diện block qua các `data-*`
+JS nhận diện block qua các `data-*`.
 
-### Block field
+## Block field
 
 Dùng:
 
-    data-prop = 'tên trường trong database'
+    data-prop = tên trường trong database
 
 Ví dụ:
 
@@ -18,10 +18,9 @@ Ví dụ:
 </h2>
 ```
 
-
 ------------------------------------------------------------------------
 
-### Listing item
+## Listing Item
 
 Mỗi item bắt buộc:
 
@@ -31,7 +30,7 @@ Mỗi item bắt buộc:
 
 Field dùng:
 
-    data-prop-listing-field='tên trường trong database'
+    data-prop-listing-field = tên trường trong database
 
 Ví dụ:
 
@@ -45,7 +44,7 @@ Ví dụ:
 
 ------------------------------------------------------------------------
 
-### Action
+## Action
 
 Dùng:
 
@@ -69,7 +68,39 @@ Save
 
 ------------------------------------------------------------------------
 
-# 2. Block Type YAML
+# 2. Listing Item Filter
+
+Block có `listingItem` bắt buộc có:
+
+``` html
+<input id="block-search-input">
+```
+
+Item:
+
+``` html
+<div data-item-uuid="{{ item.uuid }}">
+```
+
+Field search:
+
+``` html
+<input data-prop-listing-field="title">
+
+<div data-prop-listing-field="description">
+</div>
+```
+
+JS sẽ:
+
+-   Lấy keyword từ `block-search-input`
+-   Duyệt các item có `data-item-uuid`
+-   Tìm trong các field `data-prop-listing-field`
+-   Có dữ liệu thì hiện, không có thì ẩn
+
+------------------------------------------------------------------------
+
+# 3. Block Type YAML
 
 Bắt buộc tạo file:
 
@@ -89,8 +120,6 @@ imports:
 ------------------------------------------------------------------------
 
 ## blocks_type.yaml
-
-Format:
 
 ``` yaml
 parameters:
@@ -134,3 +163,4 @@ Tên file twig nên trùng block:
     ↓
 
     themes/block/program_reason.html.twig
+
