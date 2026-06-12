@@ -1,0 +1,6 @@
+amzs_admin_block_bundle:
+  resource: "@AmzsBlockBundle/Resources/config/routes/block.yaml"
+  prefix:   /block
+amzs_admin_block_static_bundle:
+  resource: "@AmzsBlockBundle/Resources/config/routes/blockStatic.yaml"
+  prefix: /block-static

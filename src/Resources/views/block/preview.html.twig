@@ -1,0 +1,53 @@
+{% extends '@AmzsCore/base.html.twig' %}
+{% block title %}CMS-Preview Block{% endblock %}
+
+{% block toolbar %}
+    {% embed '@AmzsCore/Layout/_toolbar.html.twig' %}
+        {% block toolbar_title %}Preview Block | {{ block.title }}{% endblock toolbar_title %}
+
+        {% block toolbar_breadcrumbs %}
+            <li class="breadcrumb-item text-muted">
+                <a href="{{ path('amzs_page_index_route') }}" class="text-muted text-hover-primary">Page</a>
+            </li>
+            <li class="breadcrumb-item">
+                <span class="bullet bg-gray-500 w-5px h-2px"></span>
+            </li>
+            {% if block is not empty %}
+                <li class="breadcrumb-item text-muted">
+                    {% if block.page.id ?? false %}
+                        <a href="{{path('amzs_admin_block_index', {'id': block.page.id}) }}"
+                           class="text-muted text-hover-primary">
+                            Block
+                        </a>
+                    {% endif %}
+                </li>
+                <li class="breadcrumb-item">
+                    <span class="bullet bg-gray-500 w-5px h-2px"></span>
+                </li>
+            {% endif %}
+            <li class="breadcrumb-item text-muted">Preview-Block</li>
+        {% endblock toolbar_breadcrumbs %}
+
+        {% block toolbar_button_actions %}
+
+        {% endblock toolbar_button_actions %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+    <div id="block-preview-shadow-container"
+         data-update-url="{{ path('amzs_admin_block_update', {id: block.id}) }}"
+         data-update-listing-field-url="{{ path('amzs_admin_block_update_listing_field', {id: block.id}) }}"
+         data-add-item-url="{{ path('amzs_admin_block_add_item', {id: block.id}) }}"
+         data-delete-item-url="{{ path('amzs_admin_block_delete_listing_item', {id: block.id}) }}"
+    >
+        {% include templateReview with { block: block, content_data: content_data } %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script src="{{ asset(get_path_block_cms_asset() ~ 'assets/js/admin_shadow_preview.js') }}"></script>
+
+{% endblock %}

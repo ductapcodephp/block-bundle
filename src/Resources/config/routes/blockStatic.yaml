@@ -1,0 +1,28 @@
+amzs_admin_block_static_index:
+  path: /
+  controller: AmzsCMS\BlockBundle\Controller\BlockStaticController::index
+  methods: [GET]
+
+amzs_admin_block_static_data:
+  path: /data
+  controller: AmzsCMS\BlockBundle\Controller\BlockStaticController::data
+  methods: [GET]
+
+amzs_admin_block_static_add:
+  path: /add
+  controller: AmzsCMS\BlockBundle\Controller\BlockStaticController::add
+  methods: [GET, POST]
+
+amzs_admin_block_static_edit:
+  path: /edit/{id}
+  controller: AmzsCMS\BlockBundle\Controller\BlockStaticController::edit
+  methods: [GET, POST]
+  requirements:
+    id: '\d+|__ID__'
+
+amzs_admin_block_static_delete:
+  path: /delete/{id}
+  controller: AmzsCMS\BlockBundle\Controller\BlockStaticController::delete
+  methods: [POST]
+  requirements:
+    id: '\d+|__ID__'

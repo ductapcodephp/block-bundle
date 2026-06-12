@@ -1,0 +1,18 @@
+{% embed '@AmzsCore/Components/Modal/base.html.twig' with {
+    title: title|default('Add Block'),
+    modalDialogCss: 'mw-650px',
+    modalBodyCss: 'modal-body mx-3 mx-xl-12 pt-0 pb-5'
+} %}
+
+    {% block body %}
+        {{ form_start(form) }}
+        <div class="fv-row mb-7">
+            <label class="required fs-6 fw-semibold mb-2">Static blocks</label>
+            {{ form_widget(form.blocks.blocks) }}
+            {{ form_errors(form.blocks.blocks) }}
+        </div>
+        {{ form_rest(form) }}
+        {{ form_end(form) }}
+    {% endblock %}
+
+{% endembed %}

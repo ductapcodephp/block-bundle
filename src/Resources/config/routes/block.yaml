@@ -1,0 +1,81 @@
+amzs_admin_block_index:
+  path: /listing-of-page/{id}
+  controller: AmzsCMS\BlockBundle\Controller\BlockController::listingOfPage
+  methods: [GET]
+  requirements:
+    id: '\d+|__ID__'
+
+amzs_admin_block_data:
+  path: /data/{id}
+  controller: AmzsCMS\BlockBundle\Controller\BlockController::data
+  methods: [GET, POST]
+  requirements:
+    id: '\d+|__ID__'
+
+amzs_admin_block_add:
+  path: /{pageId}/add
+  controller: AmzsCMS\BlockBundle\Controller\BlockController::addByPage
+  methods: [GET, POST]
+  requirements:
+    pageId: '\d+|__ID__'
+
+amzs_admin_block_edit:
+  path: /edit/{id}
+  controller: AmzsCMS\BlockBundle\Controller\BlockController::editAction
+  methods: [GET, POST]
+  requirements:
+    id: '\d+|__ID__'
+
+amzs_admin_block_delete:
+  path: /delete/{id}
+  controller: AmzsCMS\BlockBundle\Controller\BlockController::delete
+  methods: [POST]
+  requirements:
+    id: '\d+|__ID__'
+
+amzs_admin_block_update:
+  path: /update/{id}
+  controller: AmzsCMS\BlockBundle\Controller\BlockController::update
+  methods: [POST]
+  requirements:
+    id: '\d+|__ID__'
+
+amzs_admin_block_update_sort:
+  path: /update-sort
+  controller: AmzsCMS\BlockBundle\Controller\BlockController::updateSort
+  methods: [POST]
+
+amzs_admin_block_add_static_block:
+  path: /add-static-block/{pageId}
+  controller: AmzsCMS\BlockBundle\Controller\BlockController::addStaticBlock
+  methods: [GET, POST]
+  requirements:
+    pageId: '\d+|__ID__'
+
+amzs_admin_block_delete_listing_item:
+  path: /delete/listing-item/{id}
+  controller: AmzsCMS\BlockBundle\Controller\BlockController::deleteListingItem
+  methods: [POST]
+  requirements:
+    id: '\d+|__ID__'
+
+amzs_admin_block_add_item:
+  path: /{id}/add-item
+  controller: AmzsCMS\BlockBundle\Controller\BlockController::addItem
+  methods: [POST]
+  requirements:
+    id: '\d+|__ID__'
+
+amzs_admin_block_update_listing_field:
+  path: /update/listing-field/{id}
+  controller: AmzsCMS\BlockBundle\Controller\BlockController::updateListingField
+  methods: [POST]
+  requirements:
+    id: '\d+|__ID__'
+
+amzs_admin_block_preview:
+  path: /review/{id}
+  controller: AmzsCMS\BlockBundle\Controller\BlockReviewController::preview
+  methods: [GET]
+  requirements:
+    id: '\d+|__ID__'

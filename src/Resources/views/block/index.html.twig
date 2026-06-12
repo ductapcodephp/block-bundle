@@ -1,0 +1,178 @@
+{% extends '@AmzsCore/base.html.twig' %}
+
+{% block title %}CMS-Block Management{% endblock %}
+
+{% block toolbar %}
+    {% embed '@AmzsCore/Layout/_toolbar.html.twig' %}
+
+        {% block toolbar_title %}
+            Block Management
+        {% endblock %}
+
+        {% block toolbar_breadcrumbs %}
+            <li class="breadcrumb-item text-muted">
+                <a href="#" class="text-muted text-hover-primary">
+                    Block
+                </a>
+            </li>
+        {% endblock %}
+
+        {% block toolbar_button_actions %}
+                        <a href="{{ path('amzs_admin_block_add_static_block', {'pageId': page.id}) }}"
+                           data-amz-btn-open-modal
+                           class="btn btn-sm fw-bold btn-primary">
+                            Add static
+                        </a>
+
+            <a href="{{ path(amzs_admin_block_add, {'pageId': page.id}) }}"
+               data-amz-btn-open-modal
+               class="btn btn-sm fw-bold btn-primary">
+                Add block
+            </a>
+        {% endblock %}
+
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+
+    {% embed '@AmzsCore/Components/Table/base.html.twig' %}
+    {% endembed %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        "use strict";
+
+        $(function () {
+
+            KTAmzDataTable.init({
+
+                ajaxUrl: "{{ path(amzs_admin_block_data, {'id': page.id}) }}",
+
+                columns: [
+
+                    // Actions
+                    {
+                        data: null,
+                        title: 'Actions',
+                        orderable: false,
+
+                        render: function (data, type, row) {
+
+                            const csrfToken = "{{ csrf_token('delete-block') }}";
+
+                            // Tạo URL cho nút xem trước (Preview)
+                            const previewUrl = "{{ path('amzs_admin_block_preview', {'id': '__ID__'}) }}"
+                                .replace('__ID__', row.id);
+
+                            const deleteUrl = "{{ path(amzs_admin_block_delete, {
+                                'id': '__ID__',
+                                '_csrf_token': '__CSRF_TOKEN__'
+                            }) }}"
+                                .replace('__ID__', row.id)
+                                .replace('__CSRF_TOKEN__', csrfToken);
+
+                            return `
+                                <a href="${previewUrl}"
+                                   class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                                    <span data-bs-toggle="tooltip"
+                                          data-bs-trigger="hover"
+                                          data-bs-original-title="Preview">
+                                        {{ icon('eye') }}
+                                    </span>
+                                </a>
+
+                                <a href="${deleteUrl}"
+                                   data-amz-btn-remove
+                                   class="btn btn-icon btn-active-light-primary w-30px h-30px">
+
+                                    <span data-bs-toggle="tooltip"
+                                          data-bs-trigger="hover"
+                                          data-bs-original-title="Delete">
+
+                                        {{ icon('delete') }}
+
+                                    </span>
+
+                                </a>
+                            `;
+                        }
+                    },
+
+
+                    {
+                        data: 'index',
+                        title: 'ID'
+                    },
+                    {
+                        data: 'sort',
+                        title: 'Sort Order',
+
+                        render: function (data, type, row) {
+
+                            return `
+                                <input
+                                    type="number"
+                                    name="sort_order"
+                                    data-id="${row.id}"
+                                    value="${data}"
+                                    class="form-control block-sort-input fs-7 h-35px w-75px"
+                                >
+                            `;
+                        }
+                    },
+                    {
+                        data: 'title',
+                        title: 'Title'
+                    },
+                    {
+                        data: 'type',
+                        title: 'Type'
+                    },
+
+                    {
+                        data: 'created_at',
+                        title: 'Created At'
+                    },
+
+                    {
+                        data: 'updated_at',
+                        title: 'Updated At'
+                    }
+                ]
+            });
+            $(document).on('blur', '.block-sort-input', function () {
+
+                const $input = $(this);
+
+                $.post(
+                    "{{ path('amzs_admin_block_update_sort') }}",
+                    {
+                        id: $input.data('id'),
+                        sortOrder: $input.val()
+                    }
+                ).done(function (response) {
+
+                    if (response.success) {
+                        toastr.success(response.message);
+                    }
+                    KTAmzDataTable.reload();
+                }).fail(function () {
+
+                    toastr.error('Update failed');
+
+                });
+
+            });
+            $(document).on('shown.bs.modal', '.modal', function () {
+                $(this).find('[data-control="select2"]').select2({
+                    dropdownParent: $(this)
+                });
+            });
+        });
+    </script>
+{% endblock %}
